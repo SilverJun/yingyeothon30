@@ -14,6 +14,8 @@ export class UIKeyboard extends Component {
 
     private keyButtons: Map<KeyCode, ButtonKey> = new Map();
 
+    private keyHandler: (keyCode: KeyCode) => void;
+
     protected onLoad(): void {
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
@@ -39,9 +41,11 @@ export class UIKeyboard extends Component {
     }
 
     onKeyDown(event: EventKeyboard) {
-        const key = this.convertInputKeyCode(event.keyCode);
-        console.log('key Pressed: ',KeyCode[key]);
-        this.keyButtons.get(key)._applyTransition("pressed");
+        const keyCode = this.convertInputKeyCode(event.keyCode);
+        console.log('key Pressed: ',KeyCode[keyCode]);
+        this.keyButtons.get(keyCode)._applyTransition("pressed");
+
+        this.keyHandler?.(keyCode);
     }
 
     onKeyUp(event: EventKeyboard) {
@@ -75,6 +79,11 @@ export class UIKeyboard extends Component {
                 default: return keyCode;
             }
         }
+    }
+
+
+    public addKeyHandler(handler: (keyCode: KeyCode) => void) {
+        this.keyHandler = handler;
     }
 }
 
