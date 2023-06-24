@@ -1,0 +1,80 @@
+import { _decorator, Button, Component, EventKeyboard, Input, input, KeyCode, Node } from 'cc';
+import { Settings } from './Settings';
+const { ccclass, property } = _decorator;
+
+class ButtonKey extends Button {
+    public _applyTransition(state: string) {
+        super._applyTransition(state);
+    }
+}
+
+
+@ccclass('UIKeyboard')
+export class UIKeyboard extends Component {
+
+    private keyButtons: Map<KeyCode, ButtonKey> = new Map();
+
+    protected onLoad(): void {
+        input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
+        input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
+
+        const buttons = this.node.getComponentsInChildren(Button);
+        buttons.forEach(key => {
+            const keyName = key.node.name.slice(0, -3);
+            const keyCode = keyName.length == 1 ? `KEY_${keyName}` : keyName;
+            this.keyButtons.set(KeyCode[keyCode], key as ButtonKey);
+        });
+    }
+
+    protected onDestroy(): void {
+        input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
+    }
+
+    start() {
+
+    }
+
+    update(deltaTime: number) {
+
+    }
+
+    onKeyDown(event: EventKeyboard) {
+        const key = this.convertInputKeyCode(event.keyCode);
+        console.log('key Pressed: ',KeyCode[key]);
+        this.keyButtons.get(key)._applyTransition("pressed");
+    }
+
+    onKeyUp(event: EventKeyboard) {
+        const key = this.convertInputKeyCode(event.keyCode);
+        console.log('key Up: ',KeyCode[key]);
+        this.keyButtons.get(key)._applyTransition("normal");
+    }
+
+    convertInputKeyCode(keyCode: KeyCode): KeyCode {
+        if (Settings.layout === 'colemak') {
+            return keyCode;
+        } else {
+            switch (keyCode) {
+                case KeyCode.KEY_E: return KeyCode.KEY_F;
+                case KeyCode.KEY_R: return KeyCode.KEY_P;
+                case KeyCode.KEY_T: return KeyCode.KEY_G;
+                case KeyCode.KEY_Y: return KeyCode.KEY_J;
+                case KeyCode.KEY_U: return KeyCode.KEY_L;
+                case KeyCode.KEY_I: return KeyCode.KEY_U;
+                case KeyCode.KEY_O: return KeyCode.KEY_Y;
+                case KeyCode.KEY_P: return KeyCode.SEMICOLON;
+                case KeyCode.KEY_S: return KeyCode.KEY_R;
+                case KeyCode.KEY_D: return KeyCode.KEY_S;
+                case KeyCode.KEY_F: return KeyCode.KEY_T;
+                case KeyCode.KEY_G: return KeyCode.KEY_D;
+                case KeyCode.KEY_J: return KeyCode.KEY_N;
+                case KeyCode.KEY_K: return KeyCode.KEY_E;
+                case KeyCode.KEY_L: return KeyCode.KEY_I;
+                case KeyCode.SEMICOLON: return KeyCode.KEY_O;
+                case KeyCode.KEY_N: return KeyCode.KEY_K;
+                default: return keyCode;
+            }
+        }
+    }
+}
+
