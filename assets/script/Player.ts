@@ -12,23 +12,24 @@ enum PlayerAnim {
 @ccclass('Player')
 export class Player extends Component {
 
-    @property({type: UIKeyboard})
-    keyboard!: UIKeyboard;
-
     @property({type: SpAnimator})
     spriteAnimator!: SpAnimator;
 
+    @property()
+
+
     start() {
-        this.keyboard.addKeyHandler((keyCode) => {
-            this.spriteAnimator.Anmimation = PlayerAnim.ATTACK;
-            this.spriteAnimator.animationEndCallback = (anim: number) => {
-                this.spriteAnimator.Anmimation = PlayerAnim.IDLE;
-            }
-        });
     }
 
     update(deltaTime: number) {
 
+    }
+
+    public attack() {
+        this.spriteAnimator.Anmimation = PlayerAnim.ATTACK;
+        this.spriteAnimator.animationEndCallback = (anim: number) => {
+            this.spriteAnimator.Anmimation = PlayerAnim.IDLE;
+        }
     }
 }
 

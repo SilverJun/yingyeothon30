@@ -85,5 +85,45 @@ export class UIKeyboard extends Component {
     public addKeyHandler(handler: (keyCode: KeyCode) => void) {
         this.keyHandler = handler;
     }
+
+
+    getRandomKeyCode(): KeyCode {
+        const keys = [
+            KeyCode.KEY_A,
+            KeyCode.KEY_B,
+            KeyCode.KEY_C,
+            KeyCode.KEY_D,
+            KeyCode.KEY_E,
+            KeyCode.KEY_F,
+            KeyCode.KEY_G,
+            KeyCode.KEY_H,
+            KeyCode.KEY_I,
+            KeyCode.KEY_J,
+            KeyCode.KEY_K,
+            KeyCode.KEY_L,
+            KeyCode.KEY_M,
+            KeyCode.KEY_N,
+            KeyCode.KEY_O,
+            KeyCode.KEY_P,
+            KeyCode.KEY_Q,
+            KeyCode.KEY_R,
+            KeyCode.KEY_S,
+            KeyCode.KEY_T,
+            KeyCode.KEY_U,
+            KeyCode.KEY_V,
+            KeyCode.KEY_W,
+            KeyCode.KEY_X,
+            KeyCode.KEY_Y,
+            KeyCode.KEY_Z,
+            KeyCode.PERIOD,
+            KeyCode.COMMA,
+            KeyCode.SLASH,
+            KeyCode.SEMICOLON,
+            KeyCode.QUOTE,
+            KeyCode.BRACKET_LEFT,
+            KeyCode.BRACKET_RIGHT,
+        ]
+        return keys[Math.random()%keys.length];
+    }
 }
 
