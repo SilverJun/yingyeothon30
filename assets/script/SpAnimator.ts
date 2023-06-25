@@ -150,7 +150,7 @@ export class SpAnimator extends Sprite {
             /* stop the anm if it is not loop play */
             if (!this.anms[this._currentAnm].loop) {
                 this.stop();
-                this.animationEndCallback(this._currentAnm);
+                this.animationEndCallback?.(this._currentAnm);
                 return;
             }
 

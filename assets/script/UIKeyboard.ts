@@ -123,7 +123,7 @@ export class UIKeyboard extends Component {
             KeyCode.BRACKET_LEFT,
             KeyCode.BRACKET_RIGHT,
         ]
-        return keys[Math.random()%keys.length];
+        return keys[Math.floor(Math.random() * keys.length)];
     }
 }
 

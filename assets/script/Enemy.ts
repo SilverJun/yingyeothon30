@@ -1,4 +1,4 @@
-import { _decorator, Component, KeyCode, Label, Node, tween, Vec3 } from 'cc';
+import { _decorator, Component, KeyCode, Label, Node, Tween, tween, Vec3 } from 'cc';
 import { SpAnimator } from './SpAnimator';
 const { ccclass, property } = _decorator;
 
@@ -20,10 +20,12 @@ export class Enemy extends Component {
 
     private targetKey: KeyCode = KeyCode.NONE;
 
+    private moveTween: Tween<unknown>;
+
     public arrivedCallback?: (enemy: Enemy) => void;
 
     start() {
-        tween()
+        this.moveTween = tween()
             .target(this.node)
             .to(5, {position: new Vec3(120, this.node.getPosition().y, 0)})
             .call(() => {
@@ -38,6 +40,7 @@ export class Enemy extends Component {
     }
 
     public Hit() {
+        this.moveTween.stop();
         this.spriteAnimator.Anmimation = EnemyAnim.DEAD;
         this.spriteAnimator.animationEndCallback = (anim: number) => {
             this.node.destroy();

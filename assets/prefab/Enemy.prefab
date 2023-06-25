@@ -341,7 +341,7 @@
       "__uuid__": "798fac85-7b18-47a2-a842-2499163c525e@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "loop": true
+    "loop": false
   },
   {
     "__type__": "5ffd95PSHpEzoym+yKDIXH1",
