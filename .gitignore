@@ -1,3 +1,5 @@
 library
 temp
 .DS_Store
+build
+native
