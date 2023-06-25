@@ -1,0 +1,15 @@
+{
+  "__version__": "1.0.2",
+  "builder": {
+    "taskOptionsMap": {
+      "1687699818273": {
+        "encrypted": false,
+        "xxteaKey": "5e/80Cx9FIt6tR1E",
+        "compressZip": false,
+        "JobSystem": "none",
+        "__version__": "1.0.2"
+      }
+    },
+    "__version__": "1.3.5"
+  }
+}
