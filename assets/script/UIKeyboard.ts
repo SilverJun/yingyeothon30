@@ -14,6 +14,42 @@ export class UIKeyboard extends Component {
 
     private keyButtons: Map<KeyCode, ButtonKey> = new Map();
 
+    private keys = [
+        KeyCode.KEY_A,
+        KeyCode.KEY_B,
+        KeyCode.KEY_C,
+        KeyCode.KEY_D,
+        KeyCode.KEY_E,
+        KeyCode.KEY_F,
+        KeyCode.KEY_G,
+        KeyCode.KEY_H,
+        KeyCode.KEY_I,
+        KeyCode.KEY_J,
+        KeyCode.KEY_K,
+        KeyCode.KEY_L,
+        KeyCode.KEY_M,
+        KeyCode.KEY_N,
+        KeyCode.KEY_O,
+        KeyCode.KEY_P,
+        KeyCode.KEY_Q,
+        KeyCode.KEY_R,
+        KeyCode.KEY_S,
+        KeyCode.KEY_T,
+        KeyCode.KEY_U,
+        KeyCode.KEY_V,
+        KeyCode.KEY_W,
+        KeyCode.KEY_X,
+        KeyCode.KEY_Y,
+        KeyCode.KEY_Z,
+        KeyCode.PERIOD,
+        KeyCode.COMMA,
+        KeyCode.SLASH,
+        KeyCode.SEMICOLON,
+        KeyCode.QUOTE,
+        KeyCode.BRACKET_LEFT,
+        KeyCode.BRACKET_RIGHT,
+    ];
+
     private keyHandler: (keyCode: KeyCode) => void;
 
     protected onLoad(): void {
@@ -43,15 +79,19 @@ export class UIKeyboard extends Component {
     onKeyDown(event: EventKeyboard) {
         const keyCode = this.convertInputKeyCode(event.keyCode);
         console.log('key Pressed: ',KeyCode[keyCode]);
+        if (this.isAllowKey(keyCode) == false) return;
+
         this.keyButtons.get(keyCode)._applyTransition("pressed");
 
         this.keyHandler?.(keyCode);
     }
 
     onKeyUp(event: EventKeyboard) {
-        const key = this.convertInputKeyCode(event.keyCode);
-        console.log('key Up: ',KeyCode[key]);
-        this.keyButtons.get(key)._applyTransition("normal");
+        const keyCode = this.convertInputKeyCode(event.keyCode);
+        console.log('key Up: ',KeyCode[keyCode]);
+        if (this.isAllowKey(keyCode) == false) return;
+
+        this.keyButtons.get(keyCode)._applyTransition("normal");
     }
 
     convertInputKeyCode(keyCode: KeyCode): KeyCode {
@@ -86,44 +126,12 @@ export class UIKeyboard extends Component {
         this.keyHandler = handler;
     }
 
+    isAllowKey(keyCode: KeyCode) {
+        return this.keys.includes(keyCode);
+    }
 
     getRandomKeyCode(): KeyCode {
-        const keys = [
-            KeyCode.KEY_A,
-            KeyCode.KEY_B,
-            KeyCode.KEY_C,
-            KeyCode.KEY_D,
-            KeyCode.KEY_E,
-            KeyCode.KEY_F,
-            KeyCode.KEY_G,
-            KeyCode.KEY_H,
-            KeyCode.KEY_I,
-            KeyCode.KEY_J,
-            KeyCode.KEY_K,
-            KeyCode.KEY_L,
-            KeyCode.KEY_M,
-            KeyCode.KEY_N,
-            KeyCode.KEY_O,
-            KeyCode.KEY_P,
-            KeyCode.KEY_Q,
-            KeyCode.KEY_R,
-            KeyCode.KEY_S,
-            KeyCode.KEY_T,
-            KeyCode.KEY_U,
-            KeyCode.KEY_V,
-            KeyCode.KEY_W,
-            KeyCode.KEY_X,
-            KeyCode.KEY_Y,
-            KeyCode.KEY_Z,
-            KeyCode.PERIOD,
-            KeyCode.COMMA,
-            KeyCode.SLASH,
-            KeyCode.SEMICOLON,
-            KeyCode.QUOTE,
-            KeyCode.BRACKET_LEFT,
-            KeyCode.BRACKET_RIGHT,
-        ]
-        return keys[Math.floor(Math.random() * keys.length)];
+        return this.keys[Math.floor(Math.random() * this.keys.length)];
     }
 }
 
