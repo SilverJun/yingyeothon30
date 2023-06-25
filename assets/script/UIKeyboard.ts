@@ -1,18 +1,13 @@
 import { _decorator, Button, Component, EventKeyboard, Input, input, KeyCode, Node } from 'cc';
 import { Settings } from './Settings';
+import { UIKey } from './UIKey';
 const { ccclass, property } = _decorator;
-
-class ButtonKey extends Button {
-    public _applyTransition(state: string) {
-        super._applyTransition(state);
-    }
-}
 
 
 @ccclass('UIKeyboard')
 export class UIKeyboard extends Component {
 
-    private keyButtons: Map<KeyCode, ButtonKey> = new Map();
+    private keyButtons: Map<KeyCode, UIKey> = new Map();
 
     private keys = [
         KeyCode.KEY_A,
@@ -56,11 +51,11 @@ export class UIKeyboard extends Component {
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
 
-        const buttons = this.node.getComponentsInChildren(Button);
+        const buttons = this.node.getComponentsInChildren(UIKey);
         buttons.forEach(key => {
             const keyName = key.node.name.slice(0, -3);
             const keyCode = keyName.length == 1 ? `KEY_${keyName}` : keyName;
-            this.keyButtons.set(KeyCode[keyCode], key as ButtonKey);
+            this.keyButtons.set(KeyCode[keyCode], key);
         });
     }
 
@@ -132,6 +127,13 @@ export class UIKeyboard extends Component {
 
     getRandomKeyCode(): KeyCode {
         return this.keys[Math.floor(Math.random() * this.keys.length)];
+    }
+
+    missKey(keyCode: KeyCode) {
+        if (this.isAllowKey(keyCode)) {
+            const key = this.keyButtons.get(keyCode);
+            key.missCount += 1;
+        }
     }
 }
 

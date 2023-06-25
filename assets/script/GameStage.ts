@@ -64,6 +64,7 @@ export class GameStage extends Component {
         const enemyScript = enemy.getComponent<Enemy>(Enemy);
         enemyScript.setTargetKey(this.keyboard.getRandomKeyCode());
         enemyScript.arrivedCallback = (enemy) => {
+            this.keyboard.missKey(enemy.getTargetKey());
             const index = this.targetEnemies.findIndex((e) => e === enemy);
             this.targetEnemies.splice(index, 1);
         }
