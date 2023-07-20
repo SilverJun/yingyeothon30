@@ -1,6 +1,6 @@
 import { _decorator, Collider2D, Component, Contact2DType, instantiate, IPhysics2DContact, KeyCode, Node, PhysicsSystem2D, Prefab } from 'cc';
 import { UIKeyboard } from './UIKeyboard';
-import { Player } from './Player';
+import { GamePlayer } from './GamePlayer';
 import { Enemy } from './Enemy';
 const { ccclass, property } = _decorator;
 
@@ -17,8 +17,8 @@ export class GameStage extends Component {
 
     @property({type: UIKeyboard})
     keyboard!: UIKeyboard;
-    @property({type: Player})
-    player!: Player;
+    @property({type: GamePlayer})
+    player!: GamePlayer;
     @property({type: Node})
     spawnPlace!: UIKeyboard;
 
@@ -37,11 +37,11 @@ export class GameStage extends Component {
             this.player.attack();
         });
 
-        if (PhysicsSystem2D.instance) {
-            PhysicsSystem2D.instance.enable = true;
-            PhysicsSystem2D.instance.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            PhysicsSystem2D.instance.on(Contact2DType.END_CONTACT, this.onEndContact, this);
-        }
+        // if (PhysicsSystem2D.instance) {
+        //     PhysicsSystem2D.instance.enable = true;
+        //     PhysicsSystem2D.instance.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+        //     PhysicsSystem2D.instance.on(Contact2DType.END_CONTACT, this.onEndContact, this);
+        // }
 
         this.schedule(() => {
             this.spawnEnemy();
@@ -68,16 +68,16 @@ export class GameStage extends Component {
             const index = this.targetEnemies.findIndex((e) => e === enemy);
             this.targetEnemies.splice(index, 1);
         }
+        this.targetEnemies.push(enemyScript);
     }
 
-    onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // will be called once when two colliders begin to contact
-        console.log('onBeginContact');
-        this.targetEnemies.push(otherCollider.node.getComponent<Enemy>(Enemy));
-    }
-    onEndContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // will be called once when the contact between two colliders just about to end.
-        console.log('onEndContact');
-    }
+    // onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+    //     // will be called once when two colliders begin to contact
+    //     console.log('onBeginContact');
+    // }
+    // onEndContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+    //     // will be called once when the contact between two colliders just about to end.
+    //     console.log('onEndContact');
+    // }
 }
 

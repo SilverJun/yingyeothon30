@@ -9,14 +9,11 @@ enum PlayerAnim {
     ATTACK = 1,
 }
 
-@ccclass('Player')
-export class Player extends Component {
+@ccclass('GamePlayer')
+export class GamePlayer extends Component {
 
     @property({type: SpAnimator})
     spriteAnimator!: SpAnimator;
-
-    @property()
-
 
     start() {
     }
