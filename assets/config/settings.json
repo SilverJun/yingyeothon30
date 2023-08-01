@@ -1,3 +1,4 @@
 {
-	"layout": "qwerty"
+	"layout": "qwerty",
+	"initialHP": 5
 }

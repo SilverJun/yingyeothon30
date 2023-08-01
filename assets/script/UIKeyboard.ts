@@ -126,7 +126,8 @@ export class UIKeyboard extends Component {
     }
 
     getRandomKeyCode(): KeyCode {
-        return this.keys[Math.floor(Math.random() * this.keys.length)];
+        // 브라켓은 안나오게 수정한것. 나중에는 스테이지 별로 나오는 키를 다르게 해야할듯
+        return this.keys[Math.floor(Math.random() * (this.keys.length-2))];
     }
 
     missKey(keyCode: KeyCode) {
