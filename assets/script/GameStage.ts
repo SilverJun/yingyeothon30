@@ -1,10 +1,11 @@
-import { _decorator, Collider2D, Component, Contact2DType, director, instantiate, IPhysics2DContact, KeyCode, Node, PhysicsSystem2D, Prefab, RichText } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, director, Enum, instantiate, IPhysics2DContact, KeyCode, Node, PhysicsSystem2D, Prefab, ProgressBar, RichText } from 'cc';
 import { UIKeyboard } from './UIKeyboard';
 import { GamePlayer } from './GamePlayer';
 import { Enemy } from './Enemy';
-import { Settings } from './Settings';
+import { Settings, SwitchData, SwitchType } from './Settings';
 const { ccclass, property } = _decorator;
 
+Enum(SwitchType);
 
 enum GameState {
     INIT = 0,
@@ -28,7 +29,28 @@ export class GameStage extends Component {
     @property({type: Prefab})
     enemyBase!: Prefab;
 
+    @property({type: Node})
+    fatigue!: Node;
+
+    @property({type: ProgressBar})
+    fatigueProgressUI!: ProgressBar;
+
+    @property({type: SwitchType})
+    switchType: SwitchType = SwitchType.blue;
+
     playerHP: number = Settings.initialHP;
+    // 피로도 게이지는 0부터 키를 입력할때마다 찬다.
+    // 피로도가 임계치보다 넘어가면 키를 입력하지 못한다.
+    // 피로도는 계속 내려간다.
+    _fatigueGauge: number = 0;
+    get fatigueGauge() {
+        return this._fatigueGauge;
+    }
+    set fatigueGauge(value) {
+        this._fatigueGauge = Math.max(0, value);
+        this.fatigueProgressUI.progress = this._fatigueGauge / 100;
+    }
+    switchData!: SwitchData;
 
     private gameState: GameState = GameState.INIT;
 
@@ -46,10 +68,13 @@ export class GameStage extends Component {
             switch (this.gameState) {
                 case GameState.READY:
                     this.hpText.string = `<color=#00ff00>Press any key to start</color>`;
+                    this.fatigue.active = false;
                     break;
                 case GameState.PLAYING:
                     this.hpText.string = this.HPText;
+                    this.fatigue.active = true;
                     this.schedule(this.spawnEnemy.bind(this), 1);
+                    this.schedule(this.fatigueDecrement.bind(this), 0.1);
                     break;
                 case GameState.END:
                     this.unscheduleAllCallbacks();
@@ -67,14 +92,23 @@ export class GameStage extends Component {
     }
 
     private targetEnemies: Enemy[] = [];
+    private isRecover: boolean = false;
 
     start() {
+        this.switchData = Settings.switchData[SwitchType[this.switchType]];
+
         this.keyboard.addKeyHandler((keyCode) => {
             if (this.GameState == GameState.READY) {
                 this.GameState = GameState.PLAYING;
                 return;
             }
             if (this.GameState != GameState.PLAYING) return;
+            if (this.fatigueGauge >= this.switchData.fatigueLimitation) {
+                this.isRecover = true;
+                return;
+            }
+            if (this.isRecover) return;
+
             this.checkEnemyHit(keyCode);
             this.player.attack();
         });
@@ -89,13 +123,16 @@ export class GameStage extends Component {
     }
 
     checkEnemyHit(keyCode: KeyCode) {
+        let hitCheck = false;
         if (this.targetEnemies.length > 0) {
             const enemy = this.targetEnemies[0];
             if (enemy.getTargetKey() === keyCode) {
+                hitCheck = true;
                 enemy.Hit();
                 this.targetEnemies.shift();
             }
         }
+        this.fatigueGauge += (hitCheck ? this.switchData.fatigueTypeCorrect : this.switchData.fatigueTypeFailed);
     }
 
     spawnEnemy() {
@@ -116,6 +153,13 @@ export class GameStage extends Component {
             }
         }
         this.targetEnemies.push(enemyScript);
+    }
+
+    fatigueDecrement() {
+        this.fatigueGauge -= this.switchData.fatigueDecrement;
+        if (this.isRecover) {
+            this.isRecover = this.fatigueGauge < this.switchData.fatigueRecoverLevel;
+        }
     }
 
     // onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {

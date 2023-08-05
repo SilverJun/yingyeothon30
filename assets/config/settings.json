@@ -1,4 +1,22 @@
 {
 	"layout": "qwerty",
-	"initialHP": 5
+	"initialHP": 5,
+	"switchData": {
+		"blue": {
+			"fatigueLimitation": 70,
+			"fatigueDecrement": 1,
+			"fatigueTypeCorrect": 10,
+			"fatigueTypeFailed": 15,
+			"fatigueRecoverLevel": 40
+		},
+		"red": {
+
+		},
+		"brown": {
+
+		},
+		"non_contact": {
+
+		}
+	}
 }
