@@ -807,7 +807,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 77.79,
+      "width": 80,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -833,9 +833,15 @@
     "_fontSize": 40,
     "_maxWidth": 0,
     "_fontFamily": "Arial",
-    "_font": null,
-    "_isSystemFontUsed": true,
-    "_userDefinedFont": null,
+    "_font": {
+      "__uuid__": "ad27bbfd-dfa9-40fc-b462-9ef8168d4bc4",
+      "__expectedType__": "cc.TTFFont"
+    },
+    "_isSystemFontUsed": false,
+    "_userDefinedFont": {
+      "__uuid__": "ad27bbfd-dfa9-40fc-b462-9ef8168d4bc4",
+      "__expectedType__": "cc.TTFFont"
+    },
     "_cacheMode": 0,
     "_imageAtlas": null,
     "_handleTouchEvent": true,
