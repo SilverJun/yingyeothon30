@@ -1102,7 +1102,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150,
+      "width": 0,
       "height": 15
     },
     "_anchorPoint": {
@@ -1223,7 +1223,7 @@
     },
     "_mode": 0,
     "_totalLength": 300,
-    "_progress": 0.5,
+    "_progress": 0,
     "_reverse": false,
     "_id": "69Xp3SqeBDT4GRy2ntDgtL"
   },
@@ -1276,6 +1276,9 @@
     },
     "fatigueProgressUI": {
       "__id__": 35
+    },
+    "fatigueProgressBarSprite": {
+      "__id__": 32
     },
     "switchType": 0,
     "_id": "f4yGN4KL5EBJa0X8DeibvN"

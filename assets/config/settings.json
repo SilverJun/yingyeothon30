@@ -3,20 +3,32 @@
 	"initialHP": 5,
 	"switchData": {
 		"blue": {
-			"fatigueLimitation": 70,
-			"fatigueDecrement": 1,
-			"fatigueTypeCorrect": 10,
-			"fatigueTypeFailed": 15,
-			"fatigueRecoverLevel": 40
+			"fatigueLimitation": 80,
+			"fatigueDecrement": 2,
+			"fatigueTypeCorrect": 6,
+			"fatigueTypeFailed": 12,
+			"fatigueRecoverLevel": 50
 		},
 		"red": {
-
+			"fatigueLimitation": 70,
+			"fatigueDecrement": 1,
+			"fatigueTypeCorrect": 1,
+			"fatigueTypeFailed": 4,
+			"fatigueRecoverLevel": 50
 		},
 		"brown": {
-
+			"fatigueLimitation": 80,
+			"fatigueDecrement": 1,
+			"fatigueTypeCorrect": 2,
+			"fatigueTypeFailed": 8,
+			"fatigueRecoverLevel": 60
 		},
 		"non_contact": {
-
+			"fatigueLimitation": 60,
+			"fatigueDecrement": 1,
+			"fatigueTypeCorrect": 4,
+			"fatigueTypeFailed": 4,
+			"fatigueRecoverLevel": 40
 		}
 	}
 }

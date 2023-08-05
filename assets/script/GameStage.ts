@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, director, Enum, instantiate, IPhysics2DContact, KeyCode, Node, PhysicsSystem2D, Prefab, ProgressBar, RichText } from 'cc';
+import { _decorator, Collider2D, Color, Component, Contact2DType, director, Enum, instantiate, IPhysics2DContact, KeyCode, Node, PhysicsSystem2D, Prefab, ProgressBar, RichText, Sprite } from 'cc';
 import { UIKeyboard } from './UIKeyboard';
 import { GamePlayer } from './GamePlayer';
 import { Enemy } from './Enemy';
@@ -34,6 +34,8 @@ export class GameStage extends Component {
 
     @property({type: ProgressBar})
     fatigueProgressUI!: ProgressBar;
+    @property({type: Sprite})
+    fatigueProgressBarSprite!: Sprite;
 
     @property({type: SwitchType})
     switchType: SwitchType = SwitchType.blue;
@@ -92,7 +94,14 @@ export class GameStage extends Component {
     }
 
     private targetEnemies: Enemy[] = [];
-    private isRecover: boolean = false;
+    private _isRecover: boolean = false;
+    get isRecover() {
+        return this._isRecover;
+    }
+    set isRecover(value) {
+        this._isRecover = value;
+        this.fatigueProgressBarSprite.color = this._isRecover ? new Color("#ee2222") : new Color("#ffffff");
+    }
 
     start() {
         this.switchData = Settings.switchData[SwitchType[this.switchType]];
@@ -158,7 +167,7 @@ export class GameStage extends Component {
     fatigueDecrement() {
         this.fatigueGauge -= this.switchData.fatigueDecrement;
         if (this.isRecover) {
-            this.isRecover = this.fatigueGauge < this.switchData.fatigueRecoverLevel;
+            this.isRecover = this.fatigueGauge > this.switchData.fatigueRecoverLevel;
         }
     }
 
