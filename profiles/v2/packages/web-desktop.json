@@ -6,7 +6,9 @@
       "outputName": "web-desktop",
       "mainBundleCompressionType": "merge_all_json",
       "platform": "web-desktop",
-      "useSplashScreen": true
+      "useSplashScreen": false,
+      "name": "yingyeothon31",
+      "startScene": "a764a07b-0470-4205-ab3c-12fdf32283a7"
     },
     "taskOptionsMap": {
       "1687700449178": {
@@ -26,6 +28,14 @@
         "__version__": "1.0.1"
       },
       "1687702612306": {
+        "useWebGPU": false,
+        "resolution": {
+          "designWidth": 1280,
+          "designHeight": 960
+        },
+        "__version__": "1.0.1"
+      },
+      "1691224839069": {
         "useWebGPU": false,
         "resolution": {
           "designWidth": 1280,

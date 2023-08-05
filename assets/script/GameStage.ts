@@ -7,7 +7,7 @@ const { ccclass, property } = _decorator;
 
 Enum(SwitchType);
 
-enum GameState {
+export enum GameState {
     INIT = 0,
     READY = 1,
     PLAYING = 2,
@@ -104,13 +104,8 @@ export class GameStage extends Component {
     }
 
     start() {
-        this.switchData = Settings.switchData[SwitchType[this.switchType]];
-
         this.keyboard.addKeyHandler((keyCode) => {
-            if (this.GameState == GameState.READY) {
-                this.GameState = GameState.PLAYING;
-                return;
-            }
+            if (this.GameState == GameState.READY) return;
             if (this.GameState != GameState.PLAYING) return;
             if (this.fatigueGauge >= this.switchData.fatigueLimitation) {
                 this.isRecover = true;
@@ -169,6 +164,12 @@ export class GameStage extends Component {
         if (this.isRecover) {
             this.isRecover = this.fatigueGauge > this.switchData.fatigueRecoverLevel;
         }
+    }
+
+    startStage(switchType: SwitchType) {
+        this.switchType = switchType;
+        this.switchData = Settings.switchData[SwitchType[this.switchType]];
+        this.GameState = GameState.PLAYING;
     }
 
     // onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
